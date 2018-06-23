@@ -1,0 +1,8 @@
+name: ZoneEnchantments
+version: 1.0
+description: Custom Enchants for Skyblock Zone.
+author: Sjalfsvig
+main: me.sjalfsvig.zoneenchantments.ZoneEnchantments
+depend: [ASkyBlock]
+commands:
+  sbenchant:
