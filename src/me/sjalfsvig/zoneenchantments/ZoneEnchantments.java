@@ -3,15 +3,14 @@ package me.sjalfsvig.zoneenchantments;
 import java.lang.reflect.Field;
 
 import org.bukkit.Bukkit;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
 
+import me.sjalfsvig.zoneenchantments.enchantment.Enchantment;
 import me.sjalfsvig.zoneenchantments.enchantment.EnchantmentGlow;
-import me.sjalfsvig.zoneenchantments.enchantment.Enchantments;
-import me.sjalfsvig.zoneenchantments.util.ArmorEquipListener;
+import me.sjalfsvig.zoneenchantments.util.api.ArmorEquipListener;
 
 public class ZoneEnchantments extends JavaPlugin {
 
@@ -22,8 +21,8 @@ public class ZoneEnchantments extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 		this.skyblock = ASkyBlockAPI.getInstance();
-		this.registerGlowEnchantment();
 		this.registerEvents();
+		this.registerGlowEnchantment();
 	}
 	
 	public static ZoneEnchantments getInstance() {
@@ -34,21 +33,32 @@ public class ZoneEnchantments extends JavaPlugin {
 		return this.skyblock;
 	}
 	
-	private void registerEvents() {
+	public void registerEvents() {
 		PluginManager manager = Bukkit.getPluginManager();
 		manager.registerEvents(new ArmorEquipListener(), this);
-		manager.registerEvents(Enchantments.BLISS, this);
-		manager.registerEvents(Enchantments.HEALTH_BOOST, this);
+		manager.registerEvents(Enchantment.BLISS, this);
+		manager.registerEvents(Enchantment.HEALTH_BOOST, this);
+		manager.registerEvents(Enchantment.SELF_DESTRUCT, this);
+		manager.registerEvents(Enchantment.ANTI_GRAVITY, this);
+		manager.registerEvents(Enchantment.DOUBLE_JUMP, this);
+		manager.registerEvents(Enchantment.SWIFTNESS, this);
+		manager.registerEvents(Enchantment.AQUATIC, this);
+		manager.registerEvents(Enchantment.GLOWING, this);
+		manager.registerEvents(Enchantment.BOOST, this);
+		manager.registerEvents(Enchantment.ENDER, this);
+		manager.registerEvents(Enchantment.QUICKDRAW, this);
+		manager.registerEvents(Enchantment.EXTRA_SHOT, this);
+		manager.registerEvents(Enchantment.MEDIC, this);
 	}
 	
 	private void registerGlowEnchantment() {
 		Field field;
 		try {
-			field = Enchantment.class.getDeclaredField("acceptingNew");
+			field = org.bukkit.enchantments.Enchantment.class.getDeclaredField("acceptingNew");
 			field.setAccessible(true);
 			try {
 				field.set(null, true);
-				Enchantment.registerEnchantment(new EnchantmentGlow(100));
+				org.bukkit.enchantments.Enchantment.registerEnchantment(new EnchantmentGlow(100));
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {

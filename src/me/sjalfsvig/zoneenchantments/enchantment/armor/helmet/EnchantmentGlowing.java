@@ -1,4 +1,4 @@
-package me.sjalfsvig.zoneenchantments.enchantment.armor;
+package me.sjalfsvig.zoneenchantments.enchantment.armor.helmet;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,16 +27,17 @@ import me.sjalfsvig.zoneenchantments.util.RomanNumeral;
 import me.sjalfsvig.zoneenchantments.util.api.ArmorEquipEvent;
 import net.md_5.bungee.api.ChatColor;
 
-public class EnchantmentBliss extends SBEnchantment implements Listener {
+public class EnchantmentGlowing extends SBEnchantment implements Listener {
 
 	private ZoneEnchantments plugin = ZoneEnchantments.getInstance();
 	private ASkyBlockAPI skyblock = plugin.getSkyblock();
 	
 	private Map<UUID, Integer> taskIDs = new HashMap<UUID, Integer>();
-	private Map<UUID, Set<UUID>> regenPlayers = new HashMap<UUID, Set<UUID>>();
+	private Map<UUID, Set<UUID>> glowingPlayers = new HashMap<UUID, Set<UUID>>();
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
+		
 		Player player = event.getPlayer();
 		
 		Set<ItemStack> armorContents = new HashSet<ItemStack>();
@@ -62,9 +63,9 @@ public class EnchantmentBliss extends SBEnchantment implements Listener {
 		for (ItemStack armor : armorContents) {
 			if (armor.hasItemMeta() && armor.getItemMeta().hasLore()) {
 				for (String lore : armor.getItemMeta().getLore()) {
-					if (lore.startsWith(ChatColor.GRAY + "Bliss")) {
+					if (lore.startsWith(ChatColor.GRAY + "Glowing")) {
 						hasEnchant.add(player.getUniqueId());
-						numeral = lore.replace(ChatColor.GRAY + "Bliss ", "");
+						numeral = lore.replace(ChatColor.GRAY + "Glowing ", "");
 						break;
 					}
 				}
@@ -74,12 +75,12 @@ public class EnchantmentBliss extends SBEnchantment implements Listener {
 		if (hasEnchant.contains(player.getUniqueId())) {
 			if (skyblock.hasIsland(player.getUniqueId())) {
 				Set<UUID> set = new HashSet<UUID>();
-				regenPlayers.put(player.getUniqueId(), set);	
+				glowingPlayers.put(player.getUniqueId(), set);	
 				checkArmor(player, RomanNumeral.toInt(numeral));
 			}
 		} else {
-			if (player.hasPotionEffect(PotionEffectType.REGENERATION)) {
-				player.removePotionEffect(PotionEffectType.REGENERATION);
+			if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
+				player.removePotionEffect(PotionEffectType.NIGHT_VISION);
 			}
 		}
 	}
@@ -94,14 +95,14 @@ public class EnchantmentBliss extends SBEnchantment implements Listener {
 			ItemStack oldArmor = event.getOldArmorPiece();
 			if (oldArmor.hasItemMeta() && oldArmor.getItemMeta().hasLore()) {
 				for (String lore : oldArmor.getItemMeta().getLore()) {
-					if (lore.startsWith(ChatColor.GRAY + "Bliss")) {
+					if (lore.startsWith(ChatColor.GRAY + "Glowing")) {
 						hasEnchant.add(playerUUID);
 						break;
 					}
 				}
 				if (hasEnchant.contains(playerUUID)) {
-					if (player.hasPotionEffect(PotionEffectType.REGENERATION)) {
-						player.removePotionEffect(PotionEffectType.REGENERATION);
+					if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
+						player.removePotionEffect(PotionEffectType.NIGHT_VISION);
 					}
 					
 					if (skyblock.hasIsland(playerUUID)) {
@@ -119,20 +120,20 @@ public class EnchantmentBliss extends SBEnchantment implements Listener {
 			
 			if (newArmor.hasItemMeta() && newArmor.getItemMeta().hasLore()) {
 				for (String lore : newArmor.getItemMeta().getLore()) {
-					if (lore.startsWith(ChatColor.GRAY + "Bliss")) {
+					if (lore.startsWith(ChatColor.GRAY + "Glowing")) {
 						hasEnchant.add(playerUUID);
-						numeral = lore.replace(ChatColor.GRAY + "Bliss ", "");
+						numeral = lore.replace(ChatColor.GRAY + "Glowing ", "");
 						break;
 					}
 				}
 				
 				if (hasEnchant.contains(playerUUID)) {
 					int enchantmentLevel = RomanNumeral.toInt(numeral);
-					player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 99999, enchantmentLevel-1));
+					player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 99999, enchantmentLevel));
 					
 					if (skyblock.hasIsland(playerUUID)) {
 						Set<UUID> set = new HashSet<UUID>();
-						regenPlayers.put(playerUUID, set);	
+						glowingPlayers.put(playerUUID, set);	
 						checkArmor(player, enchantmentLevel);
 					}
 				}
@@ -167,7 +168,7 @@ public class EnchantmentBliss extends SBEnchantment implements Listener {
 				for (ItemStack armor : armorContents) {
 					if (armor.hasItemMeta() && armor.getItemMeta().hasLore()) {
 						for (String lore : armor.getItemMeta().getLore()) {
-							if (lore.startsWith(ChatColor.GRAY + "Bliss")) {
+							if (lore.startsWith(ChatColor.GRAY + "Glowing")) {
 								hasEnchant = true;
 								break;
 							}
@@ -180,14 +181,14 @@ public class EnchantmentBliss extends SBEnchantment implements Listener {
 					List<Entity> nearbyEntities = player.getNearbyEntities(32, 32, 32);
 					Set<UUID> nearbyMembers = new HashSet<UUID>();
 					
-					if (regenPlayers != null && regenPlayers.containsKey(player.getUniqueId())) {
-						for (UUID regenPlayer : regenPlayers.get(player.getUniqueId())) {
+					if (glowingPlayers != null && glowingPlayers.containsKey(player.getUniqueId())) {
+						for (UUID regenPlayer : glowingPlayers.get(player.getUniqueId())) {
 							if (!nearbyMembers.contains(regenPlayer)) {
 								Player regenTarget = Bukkit.getPlayer(regenPlayer);
-								if (regenTarget.hasPotionEffect(PotionEffectType.REGENERATION)) {
-									regenTarget.removePotionEffect(PotionEffectType.REGENERATION);
+								if (regenTarget.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
+									regenTarget.removePotionEffect(PotionEffectType.NIGHT_VISION);
 								}
-								regenPlayers.get(player.getUniqueId()).remove(regenTarget.getUniqueId());
+								glowingPlayers.get(player.getUniqueId()).remove(regenTarget.getUniqueId());
 							}
 						}
 					}
@@ -196,10 +197,10 @@ public class EnchantmentBliss extends SBEnchantment implements Listener {
 						if (entity instanceof Player) {
 							Player target = (Player) entity;
 							if (islandMembers.contains(target.getUniqueId())) {
-								if (regenPlayers.containsKey(player.getUniqueId())) {
-									if (!regenPlayers.get(player.getUniqueId()).contains(target.getUniqueId())) {
-										regenPlayers.get(player.getUniqueId()).add(target.getUniqueId());
-										target.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 99999, enchantmentLevel-1));
+								if (glowingPlayers.containsKey(player.getUniqueId())) {
+									if (!glowingPlayers.get(player.getUniqueId()).contains(target.getUniqueId())) {
+										glowingPlayers.get(player.getUniqueId()).add(target.getUniqueId());
+										target.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 99999, enchantmentLevel));
 										nearbyMembers.add(target.getUniqueId());
 									}
 								}
@@ -216,36 +217,36 @@ public class EnchantmentBliss extends SBEnchantment implements Listener {
 	private void stopCheckArmor(Player player) {
 		if (taskIDs.containsKey(player.getUniqueId())) {
 			Bukkit.getServer().getScheduler().cancelTask(taskIDs.get(player.getUniqueId()));
-			if (regenPlayers != null && regenPlayers.containsKey(player.getUniqueId())) {
-				for (UUID regenPlayer : regenPlayers.get(player.getUniqueId())) {
+			if (glowingPlayers != null && glowingPlayers.containsKey(player.getUniqueId())) {
+				for (UUID regenPlayer : glowingPlayers.get(player.getUniqueId())) {
 					if (Bukkit.getPlayer(regenPlayer) != null) {
 						Player target = Bukkit.getPlayer(regenPlayer);
-						target.removePotionEffect(PotionEffectType.REGENERATION);
+						target.removePotionEffect(PotionEffectType.NIGHT_VISION);
 					}
 				}
 				
-				regenPlayers.remove(player.getUniqueId());
+				glowingPlayers.remove(player.getUniqueId());
 			}
 		}
 	}
 	
 	@Override
 	public String getName() {
-		return "Bliss";
+		return "Glowing";
 	}
-	
+
 	@Override
 	public String getDescription() {
-		return "This enchantment will give you and your nearby island members regeneration.";
+		return "This enchantment gives you and your nearby island members the ability to see in the dark.";
 	}
-	
+
 	@Override
 	public int getMaxLevel() {
-		return 3;
+		return 1;
 	}
-	
+
 	@Override
 	public ItemType getItemType() {
-		return ItemType.ARMOR;
+		return ItemType.HELMET;
 	}
 }

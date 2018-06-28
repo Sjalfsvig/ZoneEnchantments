@@ -1,8 +1,6 @@
 package me.sjalfsvig.zoneenchantments.enchantment;
 
-import java.util.List;
-
-import me.sjalfsvig.zoneenchantments.util.ArmorType;
+import me.sjalfsvig.zoneenchantments.util.ItemType;
 
 public abstract class SBEnchantment {
 	
@@ -12,7 +10,5 @@ public abstract class SBEnchantment {
 	
 	public abstract int getMaxLevel();
 	
-	public abstract List<SBEnchantment> getConflictsWith();
-	
-	public abstract ArmorType getItemTarget();
+	public abstract ItemType getItemType();
 }

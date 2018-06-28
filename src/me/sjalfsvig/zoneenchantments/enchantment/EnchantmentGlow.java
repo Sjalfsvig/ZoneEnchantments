@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class EnchantmentGlow extends Enchantment {
 
-	// Used to handle the glowing effect on items.
+	// Used to give the glowing effect to items, easier to give enchantment than edit NBT.
 	
 	public EnchantmentGlow(int id) {
 		super(id);
@@ -34,16 +34,12 @@ public class EnchantmentGlow extends Enchantment {
 	
 	@Override
 	public int getMaxLevel() {
-		return 3;
+		return 1;
 	}
 	
 	@Override
 	public String getName() {
 		return "SkyblockZone";
-	}
-	
-	public String getDescription() {
-		return "Enchantment to apply glow.";
 	}
 	
 	@Override
