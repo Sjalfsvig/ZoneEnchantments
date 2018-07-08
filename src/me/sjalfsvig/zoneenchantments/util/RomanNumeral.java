@@ -2,7 +2,7 @@ package me.sjalfsvig.zoneenchantments.util;
 
 public class RomanNumeral {
 
-	public static String toRomanNumeral(String num) {
+	public static String fromInt(String num) {
 		String numeral = "";
 		
 		switch (num) {

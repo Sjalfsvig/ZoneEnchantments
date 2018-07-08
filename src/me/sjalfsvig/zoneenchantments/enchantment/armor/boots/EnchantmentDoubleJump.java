@@ -1,9 +1,13 @@
 package me.sjalfsvig.zoneenchantments.enchantment.armor.boots;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,8 +17,8 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.ItemStack;
 
+import me.sjalfsvig.zoneenchantments.enchantment.Rarity;
 import me.sjalfsvig.zoneenchantments.enchantment.SBEnchantment;
-import me.sjalfsvig.zoneenchantments.util.ItemType;
 import me.sjalfsvig.zoneenchantments.util.api.ArmorEquipEvent;
 import net.md_5.bungee.api.ChatColor;
 
@@ -30,9 +34,11 @@ public class EnchantmentDoubleJump extends SBEnchantment implements Listener {
 			ItemStack oldArmor = event.getOldArmorPiece();
 			if (oldArmor.hasItemMeta() && oldArmor.getItemMeta().hasLore()) {
 				for (String lore : oldArmor.getItemMeta().getLore()) {
-					if (lore.startsWith(ChatColor.GRAY + "Double Jump")) {
+					if (lore.startsWith(ChatColor.GRAY + "Double-Jump")) {
 						if (!player.hasPermission("essentials.fly")) {
 							player.setAllowFlight(false);
+						} else {
+							player.setAllowFlight(true);
 						}
 					}
 				}
@@ -43,7 +49,7 @@ public class EnchantmentDoubleJump extends SBEnchantment implements Listener {
 			ItemStack newArmor = event.getNewArmorPiece();
 			if (newArmor.hasItemMeta() && newArmor.getItemMeta().hasLore()) {
 				for (String lore : newArmor.getItemMeta().getLore()) {
-					if (lore.startsWith(ChatColor.GRAY + "Double Jump")) {
+					if (lore.startsWith(ChatColor.GRAY + "Double-Jump")) {
 						player.setAllowFlight(true);
 					}
 				}
@@ -60,7 +66,7 @@ public class EnchantmentDoubleJump extends SBEnchantment implements Listener {
 			ItemStack boots = player.getInventory().getBoots();
 			if (boots.hasItemMeta() && boots.getItemMeta().hasLore()) {
 				for (String lore : boots.getItemMeta().getLore()) {
-					if (lore.startsWith(ChatColor.GRAY + "Double Jump")) {
+					if (lore.startsWith(ChatColor.GRAY + "Double-Jump")) {
 						hasEnchant.add(player.getUniqueId());
 						break;
 					}
@@ -95,12 +101,12 @@ public class EnchantmentDoubleJump extends SBEnchantment implements Listener {
 	
 	@Override
 	public String getName() {
-		return "Double Jump";
+		return "Double-Jump";
 	}
 
 	@Override
-	public String getDescription() {
-		return "This enchantment gives you the ability to jump twice.";
+	public Rarity getRarity() {
+		return Rarity.EPIC;
 	}
 
 	@Override
@@ -109,8 +115,7 @@ public class EnchantmentDoubleJump extends SBEnchantment implements Listener {
 	}
 
 	@Override
-	public ItemType getItemType() {
-		return ItemType.BOOTS;
+	public List<Material> getAllowedItems() {
+		return new ArrayList<Material>(Arrays.asList(Material.DIAMOND_BOOTS, Material.GOLD_BOOTS, Material.IRON_BOOTS, Material.LEATHER_BOOTS));
 	}
-	
 }

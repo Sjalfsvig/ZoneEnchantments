@@ -1,19 +1,23 @@
 package me.sjalfsvig.zoneenchantments.enchantment.armor;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import me.sjalfsvig.zoneenchantments.enchantment.Rarity;
 import me.sjalfsvig.zoneenchantments.enchantment.SBEnchantment;
-import me.sjalfsvig.zoneenchantments.util.ItemType;
 import net.md_5.bungee.api.ChatColor;
 
 public class EnchantmentSelfDestruct extends SBEnchantment implements Listener {
@@ -67,6 +71,7 @@ public class EnchantmentSelfDestruct extends SBEnchantment implements Listener {
 			if (hasEnchant.contains(player.getUniqueId())) {
 				player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 2.5f, false, false); 
 				hasEnchant.remove(player.getUniqueId());
+				armorContents.remove(player.getUniqueId());
 			}
 		}
 	}
@@ -77,8 +82,8 @@ public class EnchantmentSelfDestruct extends SBEnchantment implements Listener {
 	}
 
 	@Override
-	public String getDescription() {
-		return "This enchantment gives you the ability to create an explosion on death.";
+	public Rarity getRarity() {
+		return Rarity.RARE;
 	}
 
 	@Override
@@ -87,7 +92,10 @@ public class EnchantmentSelfDestruct extends SBEnchantment implements Listener {
 	}
 
 	@Override
-	public ItemType getItemType() {
-		return null;
+	public List<Material> getAllowedItems() {
+		return new ArrayList<Material>(Arrays.asList(Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE, Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS,
+				Material.IRON_HELMET, Material.IRON_CHESTPLATE, Material.IRON_LEGGINGS, Material.IRON_BOOTS,
+				Material.GOLD_HELMET, Material.GOLD_CHESTPLATE, Material.GOLD_LEGGINGS, Material.GOLD_BOOTS,
+				Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE, Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS));
 	}
 }

@@ -1,23 +1,36 @@
 package me.sjalfsvig.zoneenchantments.enchantment.armor.helmet;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import me.sjalfsvig.zoneenchantments.enchantment.Rarity;
 import me.sjalfsvig.zoneenchantments.enchantment.SBEnchantment;
-import me.sjalfsvig.zoneenchantments.util.ItemType;
 import me.sjalfsvig.zoneenchantments.util.RomanNumeral;
 import me.sjalfsvig.zoneenchantments.util.api.ArmorEquipEvent;
 import net.md_5.bungee.api.ChatColor;
 
 public class EnchantmentAquatic extends SBEnchantment implements Listener {
+
+	@EventHandler
+	public void onDeath(PlayerDeathEvent event) {
+		Player player = event.getEntity();
+		if (player.hasPotionEffect(PotionEffectType.WATER_BREATHING)) {
+			player.removePotionEffect(PotionEffectType.WATER_BREATHING);
+		}
+	}
 	
 	@EventHandler
 	public void onArmorEquip(ArmorEquipEvent event) {
@@ -59,7 +72,7 @@ public class EnchantmentAquatic extends SBEnchantment implements Listener {
 				
 				if (hasEnchant.contains(player.getUniqueId())) {
 					enchantmentLevel = RomanNumeral.toInt(numeral.trim());
-					player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 99999, enchantmentLevel-1));
+					player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 99999, enchantmentLevel));
 					hasEnchant.remove(player.getUniqueId());
 				}
 			}
@@ -72,8 +85,8 @@ public class EnchantmentAquatic extends SBEnchantment implements Listener {
 	}
 
 	@Override
-	public String getDescription() {
-		return "This enchantment gives you the ability to breathe underwater.";
+	public Rarity getRarity() {
+		return Rarity.COMMON;
 	}
 
 	@Override
@@ -82,7 +95,7 @@ public class EnchantmentAquatic extends SBEnchantment implements Listener {
 	}
 
 	@Override
-	public ItemType getItemType() {
-		return ItemType.HELMET;
+	public List<Material> getAllowedItems() {
+		return new ArrayList<Material>(Arrays.asList(Material.DIAMOND_HELMET, Material.GOLD_HELMET, Material.IRON_HELMET, Material.LEATHER_HELMET));
 	}
 }

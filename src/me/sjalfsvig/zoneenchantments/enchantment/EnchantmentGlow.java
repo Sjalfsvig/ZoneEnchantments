@@ -1,13 +1,10 @@
 package me.sjalfsvig.zoneenchantments.enchantment;
 
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
 
-public class EnchantmentGlow extends Enchantment {
+public class EnchantmentGlow extends org.bukkit.enchantments.Enchantment {
 
-	// Used to give the glowing effect to items, easier to give enchantment than edit NBT.
-	
 	public EnchantmentGlow(int id) {
 		super(id);
 	}
@@ -20,11 +17,6 @@ public class EnchantmentGlow extends Enchantment {
 	@Override
 	public boolean canEnchantItem(ItemStack arg0) {
 		return true;
-	}
-	
-	@Override
-	public boolean conflictsWith(Enchantment arg0) {
-		return false;
 	}
 	
 	@Override
@@ -54,6 +46,11 @@ public class EnchantmentGlow extends Enchantment {
 	
 	@Override
 	public boolean isTreasure() {
+		return false;
+	}
+
+	@Override
+	public boolean conflictsWith(org.bukkit.enchantments.Enchantment arg0) {
 		return false;
 	}
 }

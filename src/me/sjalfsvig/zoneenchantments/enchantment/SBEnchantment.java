@@ -1,14 +1,16 @@
 package me.sjalfsvig.zoneenchantments.enchantment;
 
-import me.sjalfsvig.zoneenchantments.util.ItemType;
+import java.util.List;
+
+import org.bukkit.Material;
 
 public abstract class SBEnchantment {
-	
+
 	public abstract String getName();
 	
-	public abstract String getDescription();
+	public abstract Rarity getRarity();
 	
 	public abstract int getMaxLevel();
 	
-	public abstract ItemType getItemType();
+	public abstract List<Material> getAllowedItems();
 }

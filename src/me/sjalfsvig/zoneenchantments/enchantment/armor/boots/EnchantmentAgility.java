@@ -1,4 +1,4 @@
-package me.sjalfsvig.zoneenchantments.enchantment.armor.helmet;
+package me.sjalfsvig.zoneenchantments.enchantment.armor.boots;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ import me.sjalfsvig.zoneenchantments.util.RomanNumeral;
 import me.sjalfsvig.zoneenchantments.util.api.ArmorEquipEvent;
 import net.md_5.bungee.api.ChatColor;
 
-public class EnchantmentGlowing extends SBEnchantment implements Listener {
+public class EnchantmentAgility extends SBEnchantment implements Listener {
 
 	private ZoneEnchantments plugin = ZoneEnchantments.getInstance();
 	private ASkyBlockAPI skyblock = plugin.getSkyblock();
@@ -47,15 +47,15 @@ public class EnchantmentGlowing extends SBEnchantment implements Listener {
 			ItemStack armor = player.getInventory().getHelmet();
 			if (armor.hasItemMeta() && armor.getItemMeta().hasLore()) {
 				for (String lore : armor.getItemMeta().getLore()) {
-					if (lore.startsWith(ChatColor.GRAY + "Glowing")) {
+					if (lore.startsWith(ChatColor.GRAY + "Agility")) {
 						hasEnchant.add(player.getUniqueId());
 						break;
 					}
 				}
 				
 				if (hasEnchant.contains(player.getUniqueId())) {
-					if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
-						player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+					if (player.hasPotionEffect(PotionEffectType.SPEED)) {
+						player.removePotionEffect(PotionEffectType.SPEED);
 					}
 					
 					if (skyblock.hasIsland(player.getUniqueId()) || skyblock.getTeamMembers(player.getUniqueId()) != null) {
@@ -94,9 +94,9 @@ public class EnchantmentGlowing extends SBEnchantment implements Listener {
 		for (ItemStack armor : armorContents) {
 			if (armor.hasItemMeta() && armor.getItemMeta().hasLore()) {
 				for (String lore : armor.getItemMeta().getLore()) {
-					if (lore.startsWith(ChatColor.GRAY + "Glowing")) {
+					if (lore.startsWith(ChatColor.GRAY + "Agility")) {
 						hasEnchant.add(player.getUniqueId());
-						numeral = lore.replace(ChatColor.GRAY + "Glowing ", "");
+						numeral = lore.replace(ChatColor.GRAY + "Agility ", "");
 						break;
 					}
 				}
@@ -110,8 +110,8 @@ public class EnchantmentGlowing extends SBEnchantment implements Listener {
 				checkArmor(player, RomanNumeral.toInt(numeral));
 			}
 		} else {
-			if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
-				player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+			if (player.hasPotionEffect(PotionEffectType.SPEED)) {
+				player.removePotionEffect(PotionEffectType.SPEED);
 			}
 		}
 	}
@@ -126,14 +126,14 @@ public class EnchantmentGlowing extends SBEnchantment implements Listener {
 			ItemStack oldArmor = event.getOldArmorPiece();
 			if (oldArmor.hasItemMeta() && oldArmor.getItemMeta().hasLore()) {
 				for (String lore : oldArmor.getItemMeta().getLore()) {
-					if (lore.startsWith(ChatColor.GRAY + "Glowing")) {
+					if (lore.startsWith(ChatColor.GRAY + "Agility")) {
 						hasEnchant.add(playerUUID);
 						break;
 					}
 				}
 				if (hasEnchant.contains(playerUUID)) {
-					if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
-						player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+					if (player.hasPotionEffect(PotionEffectType.SPEED)) {
+						player.removePotionEffect(PotionEffectType.SPEED);
 					}
 					
 					if (skyblock.hasIsland(playerUUID) || skyblock.getTeamMembers(player.getUniqueId()) != null) {
@@ -151,16 +151,16 @@ public class EnchantmentGlowing extends SBEnchantment implements Listener {
 			
 			if (newArmor.hasItemMeta() && newArmor.getItemMeta().hasLore()) {
 				for (String lore : newArmor.getItemMeta().getLore()) {
-					if (lore.startsWith(ChatColor.GRAY + "Glowing")) {
+					if (lore.startsWith(ChatColor.GRAY + "Agility")) {
 						hasEnchant.add(playerUUID);
-						numeral = lore.replace(ChatColor.GRAY + "Glowing ", "");
+						numeral = lore.replace(ChatColor.GRAY + "Agility ", "");
 						break;
 					}
 				}
 				
 				if (hasEnchant.contains(playerUUID)) {
 					int enchantmentLevel = RomanNumeral.toInt(numeral);
-					player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 99999, enchantmentLevel));
+					player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 99999, enchantmentLevel));
 					
 					if (skyblock.hasIsland(playerUUID) || skyblock.getTeamMembers(player.getUniqueId()) != null) {
 						Set<UUID> set = new HashSet<UUID>();
@@ -199,7 +199,7 @@ public class EnchantmentGlowing extends SBEnchantment implements Listener {
 				for (ItemStack armor : armorContents) {
 					if (armor.hasItemMeta() && armor.getItemMeta().hasLore()) {
 						for (String lore : armor.getItemMeta().getLore()) {
-							if (lore.startsWith(ChatColor.GRAY + "Glowing")) {
+							if (lore.startsWith(ChatColor.GRAY + "Agility")) {
 								hasEnchant = true;
 								break;
 							}
@@ -216,8 +216,8 @@ public class EnchantmentGlowing extends SBEnchantment implements Listener {
 						for (UUID regenPlayer : glowingPlayers.get(player.getUniqueId())) {
 							if (!nearbyMembers.contains(regenPlayer)) {
 								Player regenTarget = Bukkit.getPlayer(regenPlayer);
-								if (regenTarget.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
-									regenTarget.removePotionEffect(PotionEffectType.NIGHT_VISION);
+								if (regenTarget.hasPotionEffect(PotionEffectType.SPEED)) {
+									regenTarget.removePotionEffect(PotionEffectType.SPEED);
 								}
 								glowingPlayers.get(player.getUniqueId()).remove(regenTarget.getUniqueId());
 							}
@@ -231,7 +231,7 @@ public class EnchantmentGlowing extends SBEnchantment implements Listener {
 								if (glowingPlayers.containsKey(player.getUniqueId())) {
 									if (!glowingPlayers.get(player.getUniqueId()).contains(target.getUniqueId())) {
 										glowingPlayers.get(player.getUniqueId()).add(target.getUniqueId());
-										target.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 99999, enchantmentLevel));
+										target.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 99999, enchantmentLevel));
 										nearbyMembers.add(target.getUniqueId());
 									}
 								}
@@ -252,7 +252,7 @@ public class EnchantmentGlowing extends SBEnchantment implements Listener {
 				for (UUID regenPlayer : glowingPlayers.get(player.getUniqueId())) {
 					if (Bukkit.getPlayer(regenPlayer) != null) {
 						Player target = Bukkit.getPlayer(regenPlayer);
-						target.removePotionEffect(PotionEffectType.NIGHT_VISION);
+						target.removePotionEffect(PotionEffectType.SPEED);
 					}
 				}
 				
@@ -263,21 +263,21 @@ public class EnchantmentGlowing extends SBEnchantment implements Listener {
 	
 	@Override
 	public String getName() {
-		return "Glowing";
+		return "Agility";
 	}
 
 	@Override
 	public Rarity getRarity() {
-		return Rarity.EPIC;
+		return Rarity.LEGENDARY;
 	}
 
 	@Override
 	public int getMaxLevel() {
-		return 1;
+		return 3;
 	}
 
 	@Override
 	public List<Material> getAllowedItems() {
-		return new ArrayList<Material>(Arrays.asList(Material.DIAMOND_HELMET, Material.GOLD_HELMET, Material.IRON_HELMET, Material.LEATHER_HELMET));
+		return new ArrayList<Material>(Arrays.asList(Material.DIAMOND_BOOTS, Material.GOLD_BOOTS, Material.IRON_BOOTS, Material.LEATHER_BOOTS));
 	}
 }

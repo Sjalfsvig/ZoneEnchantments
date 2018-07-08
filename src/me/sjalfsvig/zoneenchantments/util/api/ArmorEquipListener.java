@@ -143,7 +143,6 @@ public class ArmorEquipListener implements Listener {
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			Player player = event.getPlayer();
-			if (event.getClickedBlock() != null) {
 				ArmorType newArmorType = ArmorType.matchType(event.getItem());
 				
 				if (newArmorType != null) {
@@ -156,7 +155,6 @@ public class ArmorEquipListener implements Listener {
 						}
 					}
 				}
-			}
 		}
 	}
 	

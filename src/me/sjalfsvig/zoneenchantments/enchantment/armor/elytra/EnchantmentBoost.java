@@ -1,7 +1,10 @@
 package me.sjalfsvig.zoneenchantments.enchantment.armor.elytra;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -18,8 +21,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import me.sjalfsvig.zoneenchantments.ZoneEnchantments;
+import me.sjalfsvig.zoneenchantments.enchantment.Rarity;
 import me.sjalfsvig.zoneenchantments.enchantment.SBEnchantment;
-import me.sjalfsvig.zoneenchantments.util.ItemType;
 import net.md_5.bungee.api.ChatColor;
 
 public class EnchantmentBoost extends SBEnchantment implements Listener {
@@ -49,7 +52,7 @@ public class EnchantmentBoost extends SBEnchantment implements Listener {
 					
 					if (hasEnchant.contains(player.getUniqueId())) {
 						isLaunching.add(player.getUniqueId());
-						playSound(player);
+						doSound(player);
 						startCountdown(player);
 					}
 				}
@@ -84,7 +87,7 @@ public class EnchantmentBoost extends SBEnchantment implements Listener {
 		Bukkit.getScheduler().cancelTask(taskIDs.get(player.getUniqueId()));
 	}
 	
-	private void playSound(Player player) {
+	private void doSound(Player player) {
 		new BukkitRunnable() {
 			public void run() {
 				soundTaskIDs.put(player.getUniqueId(), this.getTaskId());
@@ -108,8 +111,8 @@ public class EnchantmentBoost extends SBEnchantment implements Listener {
 	}
 
 	@Override
-	public String getDescription() {
-		return "This enchantment gives you the ability to lift off by crouching.";
+	public Rarity getRarity() {
+		return Rarity.EPIC;
 	}
 
 	@Override
@@ -118,7 +121,7 @@ public class EnchantmentBoost extends SBEnchantment implements Listener {
 	}
 
 	@Override
-	public ItemType getItemType() {
-		return ItemType.ELYTRA;
+	public List<Material> getAllowedItems() {
+		return new ArrayList<Material>(Arrays.asList(Material.ELYTRA));
 	}
 }
